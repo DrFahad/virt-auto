@@ -3,7 +3,8 @@
 // Use in the "Post-Receive URLs" section of your GitHub repo.
  
 if ( $_POST['payload'] ) {
-shell_exec( 'cd /var/www/ && git reset --hard HEAD && git pull' );
+echo "in";
+shell_exec( 'cd /var/www/ && sudo git reset --hard HEAD && sudo git pull' );
 }
  
-?>hi
+?>
