@@ -1,7 +1,7 @@
 
 <html>
 <head>
-<title>Image Upload</title>
+<title>Image Upload Week 5</title>
 </head>
 <?php
 ini_set('max_execution_time', 300);
