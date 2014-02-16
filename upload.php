@@ -10,7 +10,7 @@ ini_set('max_execution_time', 300);
 <form enctype="multipart/form-data" action="upload.php" method="POST">
     <input type="hidden" name="MAX_FILE_SIZE" value="return_bytes(ini_get('upload_max_filesize'))" />
     <!-- Name of input element determines name in $_FILES array -->
-    Send this file: <input name="upfile" type="file" />
+    Send this file: <input name="upfile[]" type="file" multiple="multiple" />
     <input type="submit" value="Send File" />
     <br/> Maximum file size allowed = 16MB <br/>
 </form>
@@ -35,13 +35,51 @@ function return_bytes($val) {
 
     return $val;
 }
+
+function reArrayFiles(&$file_post) {
+
+    $file_ary = array();
+    $file_count = count($file_post['name']);
+    $file_keys = array_keys($file_post);
+
+    for ($i=0; $i<$file_count; $i++) {
+        foreach ($file_keys as $key) {
+            $file_ary[$i][$key] = $file_post[$key][$i];
+        }
+    }
+
+    return $file_ary;
+}
+
+
+if( strtolower( $_SERVER[ 'REQUEST_METHOD' ] ) == 'post' && !empty( $_FILES ) )
+{
+        
+
+
 try {
    
     // Undefined | Multiple Files | $_FILES Corruption Attack
     // If this request falls under any of them, treat it invalid.
+    
+    if ($_FILES['upfile']) {
+        $file_ary = reArrayFiles($_FILES['upfile']);
+
+        foreach ($file_ary as $file) {
+             echo "<br />";
+              echo "<br />";
+            echo 'File Name: ' . $file['name'];
+            echo "<br />";
+            echo 'File Type: ' . $file['type'];
+            echo "<br />";
+            echo 'File Size: ' . $file['size'];
+            echo "<br />";
+        
+    
+
     if (
-        !isset($_FILES['upfile']['error']) ||
-        is_array($_FILES['upfile']['error'])
+        !isset($file['error']) ||
+        is_array($file['error'])
     ) {
         //echo ini_get('upload_max_filesize');
         //echo ini_get('max_execution_time');
@@ -49,7 +87,7 @@ try {
     }
 
     // Check $_FILES['upfile']['error'] value.
-    switch ($_FILES['upfile']['error']) {
+    switch ($file['error']) {
         case UPLOAD_ERR_OK:
             break;
         case UPLOAD_ERR_NO_FILE:
@@ -62,14 +100,14 @@ try {
     }
 
     // check filesize here.
-    if ($_FILES['upfile']['size'] > return_bytes(ini_get('upload_max_filesize'))) {
+    if ($file['size'] > return_bytes(ini_get('upload_max_filesize'))) {
         throw new RuntimeException('Exceeded filesize limit 16MB.');
     }
 
     // Check MIME Type.
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     if (false === $ext = array_search(
-        $finfo->file($_FILES['upfile']['tmp_name']),
+        $finfo->file($file['tmp_name']),
         array(
             'jpg' => 'image/jpeg',
             'png' => 'image/png',
@@ -85,20 +123,22 @@ try {
    //echo $UPLOAD_DIR."/".$_FILES['upfile']['name'];
 
    if (!move_uploaded_file(
-        $_FILES['upfile']['tmp_name'],
+        $file['tmp_name'],
         sprintf('./images/%s',
-            $_FILES['upfile']['name'])
+            $file['name'])
     ))
      {
         throw new RuntimeException('Failed to move uploaded file.');
     }
 
-    echo 'File '.$_FILES['upfile']['name'].' is uploaded successfully.';
-
+    echo 'File '.$file['name'].' is uploaded successfully.';
+        }
+    }
 } catch (RuntimeException $e) {
 
     echo $e->getMessage();
 
+}
 }
 
 ?>
