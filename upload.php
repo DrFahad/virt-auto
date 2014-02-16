@@ -2,6 +2,23 @@
 <html>
 <head>
 <title>Image Upload Week 5</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+ </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+ var cnt = 2;
+ $("#anc_add").click(function(){
+ $('#tbl1 tr').last().after('<tr><td>Upload File ['+cnt+']</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>');
+ cnt++;
+ });
+ 
+$("#anc_rem").click(function(){
+ $('#tbl1 tr:last-child').remove();
+ });
+ 
+});
+</script>
+
 </head>
 <?php
 ini_set('max_execution_time', 300);
@@ -10,12 +27,26 @@ ini_set('max_execution_time', 300);
 <form enctype="multipart/form-data" action="upload.php" method="POST">
     <input type="hidden" name="MAX_FILE_SIZE" value="return_bytes(ini_get('upload_max_filesize'))" />
     <!-- Name of input element determines name in $_FILES array -->
-    Send this file: <input name="upfile[]" type="file" multiple="multiple" />
-    <input type="submit" value="Send File" />
-    <br/> Maximum file size allowed = 16MB <br/>
+    <!-- Upload this file: <input name="upfile[]" type="file" multiple="multiple" /> -->
+    
+     <br /><br />
+     <table  id="tbl1" border="0">
+        <tr><td>Upload File [1]</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>
+    </table>
+     <br/>
+     <a href="javascript:void(0);" id='anc_add'>Add File</a>
+     <a href="javascript:void(0);" id='anc_rem'>Remove File</a>
+     <br/><br/><br/>
+    <input type="submit" value="Upload File" />
+    
+    <br/> Maximum file size allowed = 16MB
+     <br/> Maximum number of files allowed = 20 <br/>
 </form>
+   
 </body>
 </html>
+
+
 <?php
 //echo return_bytes(ini_get('upload_max_filesize'));
 //echo return_bytes(ini_get('max_execution_time'));
@@ -61,6 +92,25 @@ try {
    
     // Undefined | Multiple Files | $_FILES Corruption Attack
     // If this request falls under any of them, treat it invalid.
+    //echo $_FILES['upfile']['name'][0];
+    //echo $_FILES['upfile']['name'][1];
+    //var_dump($_FILES);
+    /*
+    if ($_FILES['upfile']) {
+        $file_ary = reArrayFiles($_FILES['upfile']);
+
+        foreach ($file_ary as $file) {
+             echo "<br />";
+              echo "<br />";
+            echo 'File Name: ' . $file['name'];
+            echo "<br />";
+            echo 'File Type: ' . $file['type'];
+            echo "<br />";
+            echo 'File Size: ' . $file['size'];
+            echo "<br />";
+        }
+    }
+    */
     
     if ($_FILES['upfile']) {
         $file_ary = reArrayFiles($_FILES['upfile']);
@@ -74,6 +124,10 @@ try {
             echo "<br />";
             echo 'File Size: ' . $file['size'];
             echo "<br />";
+            echo 'File Error: '.$file['error'];
+            echo "<br/>";
+            echo 'File Set? '. isset($file['error']);
+            echo "<br/>";
         
     
 
@@ -91,7 +145,7 @@ try {
         case UPLOAD_ERR_OK:
             break;
         case UPLOAD_ERR_NO_FILE:
-            throw new RuntimeException('No file sent.');
+            throw new RuntimeException('File not selected.');
         case UPLOAD_ERR_INI_SIZE:
         case UPLOAD_ERR_FORM_SIZE:
             throw new RuntimeException('Exceeded filesize limit.');
