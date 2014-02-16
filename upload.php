@@ -8,12 +8,20 @@
      $(document).ready(function(){
  var cnt = 2;
  $("#anc_add").click(function(){
- $('#tbl1 tr').last().after('<tr><td>Upload File ['+cnt+']</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>');
- cnt++;
+ if($('#tbl1 tr').length){
+     $('#tbl1 tr').last().after('<tr><td>File ['+cnt+']</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>');
+        cnt++;
+    }else{
+    cnt=1;    
+    $('#tbl1').append('<tr><td>File ['+cnt+']</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>');
+        cnt++;
+    }
+    
  });
  
 $("#anc_rem").click(function(){
  $('#tbl1 tr:last-child').remove();
+ cnt--;
  });
  
 });
@@ -31,7 +39,7 @@ ini_set('max_execution_time', 300);
     
      <br /><br />
      <table  id="tbl1" border="0">
-        <tr><td>Upload File [1]</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>
+        <tr><td>File [1]</td><td><input name="upfile[]" type="file" multiple="multiple" /></td></tr>
     </table>
      <br/>
      <a href="javascript:void(0);" id='anc_add'>Add File</a>
