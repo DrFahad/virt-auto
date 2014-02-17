@@ -5,10 +5,30 @@
         <link href="css/main.css" type="text/css" rel="stylesheet">
 
         <title>Img-r-us</title>
-
+        <script src="http://code.jquery.com/jquery-latest.min.js">
+        </script>
+        <script type="text/javascript">
+        $.ajax({
+    type:'POST',
+    url:'uploadForm.php',
+    data:'',
+    success: function(data){
+            $('#uploadSection').html(data);
+    }
+});
+        </script>
     </head>
     <body>
-        <div class="left"><h1>Upload Files </h1></div>
+        <div class="left" id="uploadDiv"><h1>Upload Files </h1>
+            <h2>Upload Limits:</h2>
+                
+            File types = jpg/png/gif<br/>
+            Maximum file size = <?php echo ini_get('upload_max_filesize'); ?>
+            <br/> Maximum number of files = <?php echo ini_get('max_file_uploads'); ?><br/>
+            <div id="uploadSection">
+                
+            </div>
+        </div>
         <div>
             <ul class="gal-1">
                 <?php
