@@ -43,12 +43,15 @@
                 $thumbsDir = "." . $imageDir . "/thumbs";
                 $quality = 100;
                 $squareSize = 150;
-                $totalImages = 10;
-
+                $totalImages = 20;
+                
+                //$requestTime = round(microtime(true) * 1000);
+                
                 $imageSet = glob('.' . $imageDir . '/*.*');
+
                 shuffle($imageSet);
                 $randomElements = array_slice($imageSet, 0, $totalImages);
-
+                //$randomElements=  seeded_shuffle($imageSet);
                 //glob is used to search the image directory for filename
                 foreach ($randomElements as $key => $relativeImagePath) {
                     //echo $relativeImagePath."<br/>";
@@ -66,7 +69,7 @@
                             create_thumbnail($imageName . $imgExt, "." . $imageDir, $thumbsDir, $squareSize, $quality);
                             if (file_exists($thumbsDir . "/" . $imageName . $imgExt)) {
                                 ?>
-                                <li><img src="<?php echo $thumbsDir . "/" . $imageName . $imgExt; ?>" alt=""></li>
+                <a href="view.php?id=<?php echo $imageName?>"><li><img src="<?php echo $thumbsDir . "/" . $imageName . $imgExt; ?>" alt=""></li></a>
 
                                 <?php
                             } else {

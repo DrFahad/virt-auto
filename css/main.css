@@ -66,7 +66,16 @@ h2 span {
 	text-transform:none;
 }
 
-ul {
+.genericdiv{
+    width:100%;
+	background:#ccc;
+	margin-right: auto;
+        border:2px dashed #ccc;
+        -moz-border-radius: 10px;
+        -webkit-border-radius:10px;
+        border-radius: 10px;
+}
+ul{
 	width:100%;
 	background:#ccc;
 	list-style:none;

@@ -7,4 +7,6 @@ echo "in";
 shell_exec( 'cd /var/www/ && sudo git reset --hard HEAD && sudo git pull' );
 }
  
+
+
 ?>

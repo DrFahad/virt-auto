@@ -35,7 +35,7 @@
         var formData = new FormData($(this).parents('form')[0]);
 
         $.ajax({
-            url: 'upload2.php',
+            url: 'processUpload.php',
             type: 'POST',
             xhr: function() {
                 var myXhr = $.ajaxSettings.xhr();
@@ -59,7 +59,7 @@
     ini_set('max_execution_time', 300);
     ?>
     <body>
-        <form enctype="multipart/form-data" id="uploadForm" action="upload2.php" method="POST">
+        <form enctype="multipart/form-data" id="uploadForm" action="processUpload.php" method="POST">
             <input type="hidden" name="MAX_FILE_SIZE" value="return_bytes(ini_get('upload_max_filesize'))" />
             <!-- Name of input element determines name in $_FILES array -->
             <!-- Upload this file: <input name="upfile[]" type="file" multiple="multiple" /> -->
