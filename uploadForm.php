@@ -9,17 +9,19 @@
             $(document).ready(function() {
                 var cnt = 2;
                 $("#anc_add").click(function() {
-                    if ($('#tbl1 tr').length) {
-                        $('#tbl1 tr').last().after('<tr><td>File [' + cnt + ']\n\
+                    if (cnt <= 20) {
+                        if ($('#tbl1 tr').length) {
+                            $('#tbl1 tr').last().after('<tr><td>File [' + cnt + ']\n\
                         </td></tr><tr><td><input name="upfile[]" type="file" \n\
                         multiple="multiple" /></td></tr>');
-                        cnt++;
-                    } else {
-                        cnt = 1;
-                        $('#tbl1').append('<tr><td>File [' + cnt + ']</td></tr>\n\
+                            cnt++;
+                        } else {
+                            cnt = 1;
+                            $('#tbl1').append('<tr><td>File [' + cnt + ']</td></tr>\n\
                         <tr><td><input name="upfile[]" type="file" \n\
                         multiple="multiple" /></td></tr>');
-                        cnt++;
+                            cnt++;
+                        }
                     }
 
                 });
@@ -30,27 +32,27 @@
                     cnt--;
                 });
 
-                $('body').on('click', '#btnSubmit', function(e){
-        e.preventDefault();
-        var formData = new FormData($(this).parents('form')[0]);
+                $('body').on('click', '#btnSubmit', function(e) {
+                    e.preventDefault();
+                    var formData = new FormData($(this).parents('form')[0]);
 
-        $.ajax({
-            url: 'processUpload.php',
-            type: 'POST',
-            xhr: function() {
-                var myXhr = $.ajaxSettings.xhr();
-                return myXhr;
-            },
-            success: function (data) {
-                $('#created').html(data);
-            },
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-        return false;
-});
+                    $.ajax({
+                        url: 'processUpload.php',
+                        type: 'POST',
+                        xhr: function() {
+                            var myXhr = $.ajaxSettings.xhr();
+                            return myXhr;
+                        },
+                        success: function(data) {
+                            $('#created').html(data);
+                        },
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
             });
         </script>
 
@@ -75,7 +77,7 @@
             <br/><br/><br/>
             <input type="submit" id="btnSubmit" value="Upload File" />
 
-            
+
         </form>
         <div id="created"></div>
     </body>

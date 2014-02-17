@@ -43,14 +43,14 @@
                 $thumbsDir = "." . $imageDir . "/thumbs";
                 $quality = 100;
                 $squareSize = 150;
-                $totalImages = 20;
+                $imgListLimit = 20;
                 
                 //$requestTime = round(microtime(true) * 1000);
                 
                 $imageSet = glob('.' . $imageDir . '/*.*');
 
                 shuffle($imageSet);
-                $randomElements = array_slice($imageSet, 0, $totalImages);
+                $randomElements = array_slice($imageSet, 0, $imgListLimit);
                 //$randomElements=  seeded_shuffle($imageSet);
                 //glob is used to search the image directory for filename
                 foreach ($randomElements as $key => $relativeImagePath) {
