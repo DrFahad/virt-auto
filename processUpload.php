@@ -102,7 +102,7 @@ try {
             }
 
             // upload binary data.
-            set_time_limit(300);
+            set_time_limit(5000);
             //echo $UPLOAD_DIR."/".$_FILES['upfile']['name'];
 
             if (!move_uploaded_file(
