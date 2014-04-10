@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link href="css/main.css" type="text/css" rel="stylesheet">
 
-        <title>Img-r-us</title>
+        <title>Image Hosting system by Fahad SID:13203494</title>
         <script src="http://code.jquery.com/jquery-latest.min.js">
         </script>
         <script type="text/javascript">
